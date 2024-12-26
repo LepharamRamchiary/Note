@@ -7,6 +7,10 @@ import { useState, useEffect } from "react";
 function ProtectedRoute({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
+  useEffect(() => {
+    auth().catch(() => setIsAuthenticated(false))
+  })
+
   const refreshToken = async () => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
     try {
@@ -27,7 +31,7 @@ function ProtectedRoute({ children }) {
 
   const auth = async () => {
     const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token) {
+    if (!token) {
       setIsAuthenticated(false);
       return;
     }

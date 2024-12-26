@@ -28,6 +28,15 @@ class NoteDelate(generics.DestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return Note.objects.filter(auther=user)
+    
+class NoteUpdate(generics.UpdateAPIView):
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Note.objects.filter(auther=user)
+
         
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
